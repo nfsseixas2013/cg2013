@@ -53,7 +53,7 @@ void initTexture(void) {
 
 IplImage* 	image;
 int iheight, iwidth;
-char* filename = "agua4.jpg";
+char* filename = "agua3.jpg";
  
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -92,6 +92,31 @@ void init(void) {
 		
 }
 
+void luz(){
+	//GLfloat KaLig[4] = { 0.3, 0.3, 0.3, 1.0}; 
+	GLfloat KaLig[4] = { 0.3, 0.3, 0.3, 1.0};
+GLfloat KdLig[4] = { 0.3, 0.3, 0.3, 0.3}; 
+GLfloat KeLig[4] = { 1.0, 1.0, 1.0, 1.0}; 
+GLfloat pos[4] 	 = { 0.0, -0.1, 0.0, 1.0}; 
+
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+   	glEnable(GL_DEPTH_TEST);
+
+	glShadeModel(GL_SMOOTH);
+	
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	
+	glLightfv(GL_LIGHT0, GL_POSITION, 	pos);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, 	KdLig);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, 	KaLig);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, 	KeLig);
+}
+
 /// ***********************************************************************
 /// ** 
 /// ***********************************************************************
@@ -120,17 +145,51 @@ void DesenhaEixos() {
 
 void DesenhaBase(int res) {
 		
-float d = 20.0 / (float)res;
+		int nx = 20, ny = 20;
+		float 	x0 = -2.0, 
+			y0 = -2.0;
+	float 	dx = 10.0 / nx, 
+			dy = 10.0 / ny;
+	int		i,
+			j;
 
-	for (float x = -10.0 ; x < 10.0 ; x+=d) {
-		glBegin(GL_TRIANGLE_STRIP);
-			for (float z = 10.0 ; z >= -10.0 ; z-=d) {
-				glVertex3f(x, 0.0, z);
+	/*for ( j = 0 ; j < ny ; j++ ) {
+		glBegin(GL_QUAD_STRIP);
+			for ( i = 0 ; i <= nx ; i++ ) {
+				if ((i % 2) == 0) {
+					glColor3f(1.0, 0.0, 0.0);
+					glTexCoord2f(0.0, 1.0);
+					}
+				else {
+					glColor3f(0.0, 1.0, 0.0);
+					glTexCoord2f(1.0, 1.0);
+					}
+				glVertex3f(x0 + i*dx, 0.0, y0 + j*dy);
 				
-				glVertex3f(x+d, 0.0, z);
+				if ((i % 2) == 0) {
+					glColor3f(0.0, 0.0, 1.0);
+					glTexCoord2f(0.0, 0.0);
+					}
+				else {
+					glColor3f(1.0, 1.0, 1.0);
+					glTexCoord2f(1.0, 0.0);
+					}
+				glVertex3f(x0 + i*dx, 0.0 , y0 + (j+1)*dy);
 				}
 		glEnd();
-		}
+		} 
+		*/
+		for ( j = 0 ; j < ny ; j++ ) {
+		glBegin(GL_QUAD_STRIP);
+			for ( i = 0 ; i <= nx ; i++ ) {
+				glTexCoord2f(i, j+1);
+				glVertex3f(x0 + i*dx, 0.0, y0 + j*dy);
+				
+				glTexCoord2f(i, j);
+				glVertex3f(x0 + i*dx,0.0, y0 + (j+1)*dy);
+				}
+		glEnd();
+		} 
 }
 
 /// ***********************************************************************
@@ -143,8 +202,21 @@ static void display(void) {
 
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();                
-                                    
-	gluLookAt (2.0, 2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+   //////////////////////luz//////////////////////////////
+   GLfloat KaMat[4] 	= { 0.3, 0.3, 0.3, 1.0}; 
+GLfloat KdMat[4] 	= { 1.0, 0.0, 0.0, 1.0}; 
+GLfloat KeMat[4] 	= { 1.0, 1.0, 1.0, 1.0}; 
+GLfloat Shine[1] 	= { 10.0}; 
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, 	KaMat);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, 	KdMat);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, 	KeMat);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, 	Shine);
+   ////////////////////////////////////////////////////////                                 
+	//gluLookAt (2.0, 2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt (5.0, 1.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
    
 	//DesenhaEixos();
 	if (tex) {
@@ -278,7 +350,7 @@ char* shaderFile = "eggBox";
     glewInit();
     	
     init();
-    
+    luz();
     initShader(shaderFile);
         
 	glutMainLoop();
