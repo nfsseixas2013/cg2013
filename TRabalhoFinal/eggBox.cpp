@@ -73,12 +73,12 @@ void init(void) {
 }
 
 void iluminar01(){
-	
-	GLfloat KaLig[4] = { 0.3, 0.3, 0.3, 1.0};
-	GLfloat KdLig[4] = { 0.3, 0.3, 0.3, 0.3}; 
-	GLfloat KeLig[4] = { 1.0, 1.0, 1.0, 1.0}; 
+	//parâmetros de iluminação.
+	GLfloat KaLig[4] = { 0.3, 0.3, 0.3, 1.0};// luz ambiente baixa
+	GLfloat KdLig[4] = { 0.3, 0.3, 0.3, 0.3}; // difuso baixo
+	GLfloat KeLig[4] = { 1.0, 1.0, 1.0, 1.0}; // luz especular branca e forte.
 	GLfloat pos[4] 	 = { 0.0, -0.1, 0.0, 1.0}; 
-	glClearColor(0.7, 0.88, 1.0, 0.0);
+	glClearColor(0.7, 0.88, 1.0, 0.0);// ceu azul
 		
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -90,8 +90,9 @@ void iluminar01(){
 }
 
 void iluminar02(){
+	//Parâmetros de iluminação de material.
 	GLfloat KaMat[4] 	= { 0.3, 0.3, 0.3, 1.0}; 
-	GLfloat KdMat[4] 	= { 0.0, 0.7, 0.0, 1.0}; 
+	GLfloat KdMat[4] 	= { 0.0, 0.7, 0.0, 1.0}; //Mar esverdeado.
 	GLfloat KeMat[4] 	= { 1.0, 1.0, 1.0, 1.0}; 
 	GLfloat Shine[1] 	= { 20.0}; 
 
@@ -109,7 +110,7 @@ void iluminar02(){
 
 void DesenhaBase() {
 		
-	int nx = 30, ny = 30,i,j;
+	int nx = 30, ny = 30,i,j;// resolução 30x30 imagens.
 	float 	x0 = -2.0, 
 			y0 = -2.0,
 	     	dx = 10.0 / nx, 
@@ -157,7 +158,7 @@ static void display(void) {
 	if (shader) {
     	glUseProgram(shaderProg);
     	glUniform1f(getUniLoc(shaderProg,"ampl"),amplitude);
-    	glUniform1i(getUniLoc(shaderProg,"control"),mare);
+    	glUniform1i(getUniLoc(shaderProg,"control"),mare);// controle da mare , se é agitada, alta ou calma.
     	glUniform1f(getUniLoc(shaderProg,"tempo"),time_onda);
     	}
 		glColor3f(1.0, 0.0, 1.0);
