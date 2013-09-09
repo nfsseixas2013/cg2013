@@ -10,13 +10,7 @@ LDFLAGS = 	-L/usr/local/lib -lopencv_core \
 			-lopencv_highgui -lopencv_imgproc \
 			-lglut -lGLU -lGL -lGLEW -g
 
-all:	sinteticTexture simpleTexture eggBox
-
-sinteticTexture:  sinteticTexture.o
-	$(CC) $(LDFLAGS) -o $@ $^
-
-simpleTexture:  simpleTexture.o shader.o
-	$(CC) $(LDFLAGS) -o $@ $^
+all: eggBox
 	
 eggBox:  eggBox.o shader.o
 	$(CC) $(LDFLAGS) -o $@ $^

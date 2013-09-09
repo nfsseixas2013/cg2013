@@ -204,9 +204,9 @@ static void display(void) {
 	glLoadIdentity ();                
    //////////////////////luz//////////////////////////////
    GLfloat KaMat[4] 	= { 0.3, 0.3, 0.3, 1.0}; 
-GLfloat KdMat[4] 	= { 1.0, 0.0, 0.0, 1.0}; 
+GLfloat KdMat[4] 	= { 0.0, 0.7, 0.0, 1.0}; 
 GLfloat KeMat[4] 	= { 1.0, 1.0, 1.0, 1.0}; 
-GLfloat Shine[1] 	= { 10.0}; 
+GLfloat Shine[1] 	= { 20.0}; 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
